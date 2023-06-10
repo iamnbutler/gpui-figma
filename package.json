@@ -1,0 +1,23 @@
+{
+    "name": "gpui-figma",
+    "version": "0.1.0",
+    "description": "Import GPUI elements into Figma",
+    "author": "Nate Butler <iamnbutler@gmail.com>",
+    "license": "MIT",
+    "main": "code.js",
+    "scripts": {
+        "dev": "npm run build -- --watch",
+        "build": "webpack",
+        "format": "prettier --write \"**/*.*(js|jsx|ts|tsx|json)\"",
+        "test": "vitest"
+    },
+    "devDependencies": {
+        "@figma/plugin-typings": "*",
+        "prettier": "^2.8.6",
+        "ts-loader": "^9.4.2",
+        "typescript": "^5.0.2",
+        "vitest": "^0.32.0",
+        "webpack": "^5.76.3",
+        "webpack-cli": "^5.0.1"
+    }
+}
