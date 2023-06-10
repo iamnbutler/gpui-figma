@@ -1,9 +1,10 @@
 import { setFrameSize } from "./setFrameSize";
 import { hexToRGB } from "./color";
 import { Frame } from "./types/gpui-figma";
+import { GPUI } from "./types/gpui";
 
 function containerToFrame(
-    container: Container | ContainedFlex,
+    container: GPUI.Container | GPUI.ContainedFlex,
     name?: string
 ): FrameNode {
     const { padding, cornerRadius, border, background, width, height } =

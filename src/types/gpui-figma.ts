@@ -19,4 +19,17 @@ type Frame = Partial<
     >
 >;
 
-export { Frame };
+type Text = Partial<
+    Pick<
+        TextNode,
+        | "name"
+        | "characters"
+        | "fontSize"
+        | "fontName"
+        | "textCase"
+        | "textDecoration"
+        | "lineHeight"
+    >
+>;
+
+export { Frame, Text };
