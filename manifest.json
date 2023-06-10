@@ -1,0 +1,7 @@
+{
+    "id": "gpui-figma",
+    "api": "1.0.0",
+    "editorType": ["figma"],
+    "name": "GPUI To Figma",
+    "main": "dist/code.js"
+}
