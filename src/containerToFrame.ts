@@ -1,5 +1,5 @@
 import { setFrameSize } from "./setFrameSize";
-import { hexColorToRGB } from "./color";
+import { hexToRGB } from "./color";
 import { Frame } from "./types/gpui-figma";
 
 function containerToFrame(
@@ -24,14 +24,14 @@ function containerToFrame(
         fills: [
             {
                 type: "SOLID",
-                color: hexColorToRGB(background),
+                color: hexToRGB(background),
             },
         ],
         strokeWeight: border.width,
         strokes: [
             {
                 type: "SOLID",
-                color: hexColorToRGB(border.color),
+                color: hexToRGB(border.color),
             },
         ],
     };
