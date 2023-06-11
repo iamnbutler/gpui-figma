@@ -3,7 +3,7 @@ import { Contained } from "../../types/gpui";
 export const textButtonDefault: Contained<'text'> = {
     container: {
         height: 26,
-        width: 'fill',
+        width: 49,
         padding: 5,
         background: '#332F38',
         cornerRadius: 4,

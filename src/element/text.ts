@@ -1,3 +1,4 @@
+import { hexToRGB } from "../color";
 import { TextStyle } from "../types/gpui";
 
 async function text(text: TextStyle, name?: string): Promise<TextNode> {
@@ -5,6 +6,10 @@ async function text(text: TextStyle, name?: string): Promise<TextNode> {
     const textStyles: Partial<TextNode> = {
         name: name ?? "text",
         characters: text.content ?? "test text",
+        fills: text.color ? [{
+            type: "SOLID",
+            color: hexToRGB(text.color),
+        }] : undefined,
         fontSize: text.size ?? 16,
         // TODO: Implement dynamic font loading
         // For now just use Inter
