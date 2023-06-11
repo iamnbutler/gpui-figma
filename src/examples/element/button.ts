@@ -29,7 +29,7 @@ export const textButton: Partial<Interactive<ContainedFlex<Text>>> = {
             ...defaultTextButton.container,
             background: '#3F3B45',
             border: {
-                ...defaultTextButton.container.border,
+                width: 1,
                 color: '#4C4653',
             }
         },
@@ -40,7 +40,7 @@ export const textButton: Partial<Interactive<ContainedFlex<Text>>> = {
             ...defaultTextButton.container,
             background: '#4C4653',
             border: {
-                ...defaultTextButton.container.border,
+                width: 1,
                 color: '#4C4653',
             }
         },
@@ -50,7 +50,7 @@ export const textButton: Partial<Interactive<ContainedFlex<Text>>> = {
         container: {
             ...defaultTextButton.container,
             border: {
-                ...defaultTextButton.container.border,
+                width: 1,
                 color: '#576DDB',
             }
         },
