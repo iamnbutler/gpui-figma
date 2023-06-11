@@ -1,6 +1,6 @@
-import { Contained } from "../../types/gpui";
+import { Contained, Text } from "../../types/gpui";
 
-export const textButtonDefault: Contained<'text'> = {
+export const textButtonDefault: Contained<Text> = {
     container: {
         height: 26,
         width: 49,
@@ -14,7 +14,7 @@ export const textButtonDefault: Contained<'text'> = {
     },
     text: {
         content: 'Label',
-        size: 12,
+        fontSize: 12,
         lineHeight: 16,
         color: '#E2DFE7',
     }

@@ -1,87 +1,120 @@
-export interface TextStyle {
+export type TextProperties = {
     content: string;
-    size: number;
+    fontSize: number;
     lineHeight: number;
-    // TODO: Implement dynamic font loading
-    // This doesn't do anything yet
-    family?: string;
+    fontFamily?: string;
     color: string;
     underline?: boolean;
 }
 
-export interface IconStyle {
+export type MediaProperties = {
     width: number;
     height: number;
+    src: string;
+}
+
+export type IconProperties = MediaProperties & {
     color: string;
 }
 
-// TODO: Implement this
-export interface ImageStyle { }
+export type ImageProperties = MediaProperties;
 
-export type BorderStyle = {
+export type BorderProperties = {
     color: string;
     width: number;
-};
-
-export type ElementType = TextStyle | IconStyle | ImageStyle;
-export type ElementKeys = {
-    'text': TextStyle;
-    'icon': IconStyle;
-    'image': ImageStyle;
-    'flex': FlexContainerStyle;
 }
 
-export type ContainerStyle = {
-    // TODO: Implement 'auto' (hug)
-    width: number | "fill";
-    height: number | "fill";
-    // TODO: Implement individual paddings
+export type ContainerProperties = {
+    width: number | "fill" | "auto";
+    height: number | "fill" | "auto";
     padding: number;
     background: string;
     cornerRadius: number;
-    border: BorderStyle;
-};
-
-export type FlexStyle = {
-    direction: "vertical" | "horizontal";
-    spacing: number;
+    border: BorderProperties;
 }
 
-export type Container = ContainerStyle
-
-export type FlexContainerStyle = ContainerStyle & FlexStyle
-
-export type Contained<K extends keyof ElementKeys> = {
-    container: ContainerStyle;
-} & { [key in K]: ElementKeys[K] };
-
-export type Flex<K extends keyof ElementKeys> = {
-    container: FlexContainerStyle;
-} & { [key in K]: ElementKeys[K] };
-
-export type StructuredElement<K extends keyof ElementKeys> = ElementKeys[K] & {
-    children?: StyleTree;
-};
-
-export type StyledElementKeyMap = {
-    [key in keyof ElementKeys]: StructuredElement<key>;
-} & {
-    [key: string]: StructuredElement<keyof ElementKeys>;
-};
-
-export type Interactive<T extends keyof ElementKeys> = {
-    default: StructuredElement<T>;
-    hovered?: StructuredElement<T>;
-    pressed?: StructuredElement<T>;
-    disabled?: StructuredElement<T>;
-    selected?: StructuredElement<T>;
+export type Text = {
+    text: TextProperties;
 }
 
-export type Toggle<T extends keyof ElementKeys> = {
-    active: StructuredElement<T>;
-    inactive: StructuredElement<T>;
+export type Icon = {
+    icon: IconProperties;
 }
+
+export type Image = {
+    image: ImageProperties;
+}
+
+export type Container = {
+    container: ContainerProperties;
+}
+
+export type FlexProperties = {}
+export type Flex = {
+    flex: FlexProperties;
+}
+
+export type FlexContainerProperties = FlexProperties & ContainerProperties;
+export type FlexContainer = {
+    container: FlexContainerProperties;
+}
+
+export type ElementType = Text | Icon | Image | Container | Flex | FlexContainer;
+// A component can contain it's properties
+// Example:
+//
+// const label: Text = {
+//     fontSize: 12,
+//     color: "#000000",
+// }
+
+export type Contained<T = StyleTreeElement> = {
+    container: ContainerProperties;
+} & T;
+
+export type ContainedFlex<T = StyleTreeElement> = {
+    container: FlexContainerProperties;
+} & T;
+
+// If it is a container or a flexContainer, it can contain children
+// It also contains the properties of a container or a flexContainer
+//
+// Example:
+//
+// const foo: Container = {
+//    container: {
+//       width: 100,
+//      height: 100,
+//    },
+//   children: {
+//      label: {
+//        fontSize: 12,
+//       color: "#000000",
+//      },
+//   },
+// }
+export type ContainerType<T> = Contained<T> | ContainedFlex<T>;
+
+export type InteractiveState = "default" | "hovered" | "pressed" | "disabled" | "selected";
+
+// If it is interactive, has a list of states, each which contains the entire list of properties for T
+export type Interactive<T> = {
+    [K in InteractiveState]: T;
+};
+
+export type ToggleState = "active" | "inactive";
+
+// If it is a toggle it as active and inactive, each which contains the entire list of properties for T
+export type Toggle<T> = {
+    [K in ToggleState]: T;
+};
+
+export type StyleTreeElement =
+    | ElementType
+    | ContainerType<ElementType>
+    | Interactive<ElementType>
+    | Toggle<ElementType>;
 
 export type StyleTree = {
-    [key: string]: StyledElementKeyMap[keyof StyledElementKeyMap] | Interactive<keyof ElementKeys> | Toggle<keyof ElementKeys>;
+    [key: string]: StyleTreeElement;
 }

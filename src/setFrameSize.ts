@@ -1,9 +1,15 @@
+import { ContainerProperties } from "./types/gpui";
+
 function setFrameSize(
     frameNode: FrameNode,
-    width: number | "fill",
-    height: number | "fill"
+    width: ContainerProperties['width'],
+    height: ContainerProperties['height'],
 ): void {
-    if (width !== "fill" && height !== "fill") {
+    if (
+        width !== "fill"
+        && width !== "auto"
+        && height !== "fill"
+        && height !== "auto") {
         frameNode.resizeWithoutConstraints(width, height);
         frameNode.layoutGrow = 0;
         return;
@@ -31,10 +37,10 @@ function setFrameSize(
     frameNode.layoutGrow = 1;
 
     // Resize only width or height if not "fill"
-    if (width !== "fill") {
+    if (width !== "fill" && width !== "auto") {
         frameNode.resizeWithoutConstraints(width, 9999);
     }
-    if (height !== "fill") {
+    if (height !== "fill" && height !== "auto") {
         frameNode.resizeWithoutConstraints(9999, height);
     }
 }

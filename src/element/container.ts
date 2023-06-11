@@ -1,15 +1,20 @@
 import { setFrameSize } from "../setFrameSize";
 import { hexToRGB } from "../color";
-import { ContainerStyle, FlexContainerStyle } from "../types/gpui";
+import { ContainerProperties, FlexContainerProperties } from "../types/gpui";
 
 function container(
-    container: ContainerStyle | FlexContainerStyle,
+    container: ContainerProperties | FlexContainerProperties,
     name?: string
 ): FrameNode {
     const { padding, cornerRadius, border, background, width, height } =
         container;
 
-    const needsAutoLayout = width === "fill" || height === "fill" || padding;
+    const needsAutoLayout =
+        width === "fill"
+        || width === "auto"
+        || height === "fill"
+        || height === "auto"
+        || padding;
 
     const frame: Partial<FrameNode> = {
         name: name ?? "frame",

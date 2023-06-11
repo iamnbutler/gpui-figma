@@ -1,8 +1,8 @@
-import { Contained } from "../types/gpui";
+import { Contained, Text } from "../types/gpui";
 import { element } from "../element";
 
 async function containedText(
-    containedElement: Contained<'text'>
+    containedElement: Contained<Text>
 ): Promise<FrameNode> {
     if (!containedElement.text || !containedElement.container) {
         throw new Error('Contained must have a text and a container property');
