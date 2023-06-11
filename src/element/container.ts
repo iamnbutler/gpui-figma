@@ -1,10 +1,9 @@
-import { setFrameSize } from "./setFrameSize";
-import { hexToRGB } from "./color";
-import { Frame } from "./types/gpui-figma";
-import { GPUI } from "./types/gpui";
+import { setFrameSize } from "../setFrameSize";
+import { hexToRGB } from "../color";
+import { ContainerStyle, FlexContainerStyle } from "../types/gpui";
 
-function containerToFrame(
-    container: GPUI.Container | GPUI.ContainedFlex,
+function container(
+    container: ContainerStyle | FlexContainerStyle,
     name?: string
 ): FrameNode {
     const { padding, cornerRadius, border, background, width, height } =
@@ -12,7 +11,7 @@ function containerToFrame(
 
     const needsAutoLayout = width === "fill" || height === "fill" || padding;
 
-    const frame: Frame = {
+    const frame: Partial<FrameNode> = {
         name: name ?? "frame",
         layoutMode: needsAutoLayout ? "HORIZONTAL" : "NONE",
         x: 0,
@@ -45,4 +44,4 @@ function containerToFrame(
     return frameNode;
 }
 
-export { containerToFrame };
+export { container };

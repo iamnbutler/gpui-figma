@@ -1,10 +1,8 @@
-import { containerToFrame } from "./containerToFrame";
+import { container, text } from "./element/";
 import { loadFont } from "./fontLoader";
-import { textToTextNode } from "./textToTextNode";
-import { GPUI } from "./types/gpui";
-import { Text } from "./types/gpui-figma";
+import { ContainerStyle, TextStyle } from "./types/gpui";
 
-const testContainer: GPUI.Container = {
+const testContainer: ContainerStyle = {
     width: 28,
     height: 28,
     padding: 4,
@@ -16,18 +14,18 @@ const testContainer: GPUI.Container = {
     },
 };
 
-const text: Text = {
-    name: 'My Text',
-    characters: 'Hello world!',
-    fontSize: 24,
-    fontName: { family: 'Inter', style: 'Regular' },
+const testText: TextStyle = {
+    content: 'Hello world!',
+    size: 24,
+    lineHeight: 32,
+    color: "#000000",
 };
 
 async function main(): Promise<string | undefined> {
     await loadFont();
 
-    const test = containerToFrame(testContainer, "test");
-    const textNode = await textToTextNode(text);
+    const test = container(testContainer, "test");
+    const textNode = await text(testText);
 
     console.log(JSON.stringify(textNode, null, 2));
 
