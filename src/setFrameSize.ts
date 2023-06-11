@@ -1,9 +1,15 @@
+import { ContainerProperties } from "./types/gpui";
+
 function setFrameSize(
     frameNode: FrameNode,
-    width: number | "fill",
-    height: number | "fill"
+    width: ContainerProperties['width'],
+    height: ContainerProperties['height'],
 ): void {
-    if (width !== "fill" && height !== "fill") {
+    if (
+        width !== "fill"
+        && width !== "auto"
+        && height !== "fill"
+        && height !== "auto") {
         frameNode.resizeWithoutConstraints(width, height);
         frameNode.layoutGrow = 0;
         return;
@@ -18,12 +24,25 @@ function setFrameSize(
         );
     }
 
+    if (
+        width === "auto" || height === "auto"
+    ) {
+        if (frameNode.layoutMode !== "HORIZONTAL" && frameNode.layoutMode !== "VERTICAL")
+            throw new Error(
+                `Cannot set width or height to "auto" on a non-autolayout frame`
+            );
+    }
+
     if (frameNode.layoutMode === "HORIZONTAL") {
-        frameNode.primaryAxisSizingMode = "FIXED";
+        width === "auto"
+            ? frameNode.primaryAxisSizingMode = "AUTO"
+            : frameNode.primaryAxisSizingMode = "FIXED";
         frameNode.counterAxisSizingMode = "AUTO";
     } else if (frameNode.layoutMode === "VERTICAL") {
-        frameNode.primaryAxisSizingMode = "AUTO";
-        frameNode.counterAxisSizingMode = "FIXED";
+        height === "auto"
+            ? frameNode.primaryAxisSizingMode = "AUTO"
+            : frameNode.primaryAxisSizingMode = "FIXED";
+        frameNode.counterAxisSizingMode = "AUTO";
     } else {
         throw new Error(`Invalid layout mode: ${frameNode.layoutMode}`);
     }
@@ -31,10 +50,10 @@ function setFrameSize(
     frameNode.layoutGrow = 1;
 
     // Resize only width or height if not "fill"
-    if (width !== "fill") {
+    if (width !== "fill" && width !== "auto") {
         frameNode.resizeWithoutConstraints(width, 9999);
     }
-    if (height !== "fill") {
+    if (height !== "fill" && height !== "auto") {
         frameNode.resizeWithoutConstraints(9999, height);
     }
 }
