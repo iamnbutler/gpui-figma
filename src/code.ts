@@ -1,14 +1,14 @@
 import { element } from "./element/";
-import { textButtonDefault } from "./examples/element/button";
+import { textButton } from "./examples/element/button";
 import { loadFont } from "./fontLoader";
 
 async function main(): Promise<string | undefined> {
     await loadFont();
 
-    const textButton = await element.containedText(textButtonDefault)
+    const button = await element.interactiveContainedFlexText(textButton)
 
-    figma.currentPage.appendChild(textButton);
-    figma.viewport.scrollAndZoomIntoView([textButton]);
+    figma.currentPage.appendChild(button);
+    figma.viewport.scrollAndZoomIntoView([button]);
 
     console.log("Plugin executed successfully!");
     return undefined;

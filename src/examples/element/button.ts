@@ -1,6 +1,6 @@
-import { Contained, Text } from "../../types/gpui";
+import { ContainedFlex, Interactive, Text } from "../../types/gpui";
 
-export const textButtonDefault: Contained<Text> = {
+const defaultTextButton: ContainedFlex<Text> = {
     container: {
         height: 26,
         width: 49,
@@ -10,12 +10,50 @@ export const textButtonDefault: Contained<Text> = {
         border: {
             color: '#4C4653',
             width: 1,
-        }
+        },
+        spacing: 0,
+        direction: 'HORIZONTAL',
     },
     text: {
         content: 'Label',
         fontSize: 12,
         lineHeight: 16,
         color: '#E2DFE7',
+    }
+}
+
+export const textButton: Partial<Interactive<ContainedFlex<Text>>> = {
+    default: defaultTextButton,
+    hovered: {
+        container: {
+            ...defaultTextButton.container,
+            background: '#3F3B45',
+            border: {
+                ...defaultTextButton.container.border,
+                color: '#4C4653',
+            }
+        },
+        text: defaultTextButton.text,
+    },
+    pressed: {
+        container: {
+            ...defaultTextButton.container,
+            background: '#4C4653',
+            border: {
+                ...defaultTextButton.container.border,
+                color: '#4C4653',
+            }
+        },
+        text: defaultTextButton.text,
+    },
+    focused: {
+        container: {
+            ...defaultTextButton.container,
+            border: {
+                ...defaultTextButton.container.border,
+                color: '#576DDB',
+            }
+        },
+        text: defaultTextButton.text,
     }
 }

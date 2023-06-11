@@ -49,4 +49,12 @@ function container(
     return frameNode;
 }
 
+export function flexContainer(e: FlexContainerProperties) {
+    const containerNode = container(e);
+    containerNode.layoutMode = e.direction ?? "HORIZONTAL";
+    containerNode.itemSpacing = e.spacing ?? 0;
+
+    return containerNode;
+}
+
 export { container };

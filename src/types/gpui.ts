@@ -33,6 +33,12 @@ export type ContainerProperties = {
     border: BorderProperties;
 }
 
+export type FlexProperties = {
+    direction: "HORIZONTAL" | "VERTICAL";
+    spacing: number;
+}
+
+
 export type Text = {
     text: TextProperties;
 }
@@ -49,7 +55,6 @@ export type Container = {
     container: ContainerProperties;
 }
 
-export type FlexProperties = {}
 export type Flex = {
     flex: FlexProperties;
 }
@@ -95,7 +100,7 @@ export type ContainedFlex<T = StyleTreeElement> = {
 // }
 export type ContainerType<T> = Contained<T> | ContainedFlex<T>;
 
-export type InteractiveState = "default" | "hovered" | "pressed" | "disabled" | "selected";
+export type InteractiveState = "default" | "hovered" | "pressed" | "disabled" | "selected" | "focused";
 
 // If it is interactive, has a list of states, each which contains the entire list of properties for T
 export type Interactive<T> = {
