@@ -2,12 +2,11 @@ import { setFrameSize } from "../setFrameSize";
 import { hexToRGB } from "../color";
 import { ContainerProperties, FlexContainerProperties } from "../types/gpui";
 
-function container(
-    container: ContainerProperties | FlexContainerProperties,
-    name?: string
-): FrameNode {
-    const { padding, cornerRadius, border, background, width, height } =
-        container;
+function setContainerProperties(
+    frame: FrameNode,
+    container: ContainerProperties | FlexContainerProperties
+) {
+    const { padding, cornerRadius, border, background, width, height } = container;
 
     const needsAutoLayout =
         width === "fill"
@@ -16,45 +15,58 @@ function container(
         || height === "auto"
         || padding;
 
-    const frame: Partial<FrameNode> = {
-        name: name ?? "frame",
-        layoutMode: needsAutoLayout ? "HORIZONTAL" : "NONE",
-        x: 0,
-        y: 0,
-        paddingLeft: padding,
-        paddingRight: padding,
-        paddingTop: padding,
-        paddingBottom: padding,
-        cornerRadius: cornerRadius,
-        fills: [
+    if ('direction' in container) {
+        frame.layoutMode = container.direction;
+        frame.itemSpacing = container.spacing ?? 0;
+    } else if (needsAutoLayout) {
+        frame.layoutMode = "HORIZONTAL";
+        frame.itemSpacing = 0;
+    }
+
+    setFrameSize(frame, width, height);
+
+    frame.name = "frame";
+    padding && (frame.paddingLeft = frame.paddingRight = frame.paddingTop = frame.paddingBottom = padding);
+    cornerRadius && (frame.cornerRadius = cornerRadius);
+
+    if (background) {
+        frame.fills = [
             {
                 type: "SOLID",
                 color: hexToRGB(background),
             },
-        ],
-        strokeWeight: border.width,
-        strokes: [
+        ];
+    }
+
+    if (border) {
+        frame.strokeWeight = border.width;
+        frame.strokes = [
             {
                 type: "SOLID",
                 color: hexToRGB(border.color),
             },
-        ],
-    };
+        ];
+    }
+}
 
+function container(
+    container: ContainerProperties,
+): FrameNode {
     const frameNode = figma.createFrame();
-    setFrameSize(frameNode, width, height);
 
-    Object.assign(frameNode, frame);
+    setContainerProperties(frameNode, container);
 
     return frameNode;
 }
 
-export function flexContainer(e: FlexContainerProperties) {
-    const containerNode = container(e);
-    containerNode.layoutMode = e.direction ?? "HORIZONTAL";
-    containerNode.itemSpacing = e.spacing ?? 0;
+function flexContainer(
+    flexContainerProperties: FlexContainerProperties,
+): FrameNode {
+    const frameNode = figma.createFrame();
 
-    return containerNode;
+    setContainerProperties(frameNode, flexContainerProperties);
+
+    return frameNode;
 }
 
-export { container };
+export { container, flexContainer };

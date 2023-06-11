@@ -4,17 +4,12 @@ import { element } from "../element";
 async function interactiveContainedFlexText(
     e: Partial<Interactive<ContainedFlex<Text>>>
 ): Promise<FrameNode> {
-    const interactiveElementNode = element.container({
-        width: 100,
-        height: 100,
-        background: '#000000',
+    const interactiveElementNode = element.flexContainer({
+        width: "auto",
+        height: "auto",
         padding: 0,
         cornerRadius: 0,
-        border: {
-            color: '#000000',
-            width: 1,
-        },
-        spacing: 8,
+        spacing: 4,
         direction: 'VERTICAL',
     })
 
@@ -23,14 +18,18 @@ async function interactiveContainedFlexText(
     // For each state, create a containedText
     // push it to the interactiveElementNode
 
+    const nodesToAdd: Array<FrameNode> = [];
+
     for (const state of states) {
         if (e[state] !== undefined) {
             const containedText = await element.containedText(e[state] as ContainedFlex<Text>);
-            interactiveElementNode.appendChild(containedText);
+            nodesToAdd.push(containedText);
         }
     }
 
-    interactiveElementNode.appendChild(interactiveElementNode);
+    nodesToAdd.map((node, ix) => {
+        interactiveElementNode.insertChild(ix, node);
+    })
 
     return interactiveElementNode
 }

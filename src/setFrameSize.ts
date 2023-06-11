@@ -24,12 +24,25 @@ function setFrameSize(
         );
     }
 
+    if (
+        width === "auto" || height === "auto"
+    ) {
+        if (frameNode.layoutMode !== "HORIZONTAL" && frameNode.layoutMode !== "VERTICAL")
+            throw new Error(
+                `Cannot set width or height to "auto" on a non-autolayout frame`
+            );
+    }
+
     if (frameNode.layoutMode === "HORIZONTAL") {
-        frameNode.primaryAxisSizingMode = "FIXED";
+        width === "auto"
+            ? frameNode.primaryAxisSizingMode = "AUTO"
+            : frameNode.primaryAxisSizingMode = "FIXED";
         frameNode.counterAxisSizingMode = "AUTO";
     } else if (frameNode.layoutMode === "VERTICAL") {
-        frameNode.primaryAxisSizingMode = "AUTO";
-        frameNode.counterAxisSizingMode = "FIXED";
+        height === "auto"
+            ? frameNode.primaryAxisSizingMode = "AUTO"
+            : frameNode.primaryAxisSizingMode = "FIXED";
+        frameNode.counterAxisSizingMode = "AUTO";
     } else {
         throw new Error(`Invalid layout mode: ${frameNode.layoutMode}`);
     }

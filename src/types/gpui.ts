@@ -27,10 +27,10 @@ export type BorderProperties = {
 export type ContainerProperties = {
     width: number | "fill" | "auto";
     height: number | "fill" | "auto";
-    padding: number;
-    background: string;
-    cornerRadius: number;
-    border: BorderProperties;
+    padding?: number;
+    background?: string;
+    cornerRadius?: number;
+    border?: BorderProperties;
 }
 
 export type FlexProperties = {
